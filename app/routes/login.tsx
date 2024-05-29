@@ -1,22 +1,21 @@
 import * as React from "react";
 import type { LinksFunction, MetaFunction } from "@remix-run/node";
 import { Link as RemixLink } from "@remix-run/react";
-import Typography from "@mui/material/Typography";
-import Link from "@mui/material/Link";
-import Input from "@mui/material/Input";
 import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
 import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Button from "@mui/material/Button";
-// import Checkbox from "@mui/material/Checkbox";
 import loginStyles from "~/styles/login.css";
 import Copyright from "../src/Copyright";
+import { AuthorizationError } from "remix-auth";
+import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
+import { Form } from "@remix-run/react";
+import { authenticator } from "~/services/auth.server";
 
 // export links
 export const links: LinksFunction = () => [
@@ -49,10 +48,10 @@ export default function Index() {
 
   return (
     <div className="login_container">
-      <div className="login_card">
+      <Form method="post" className="login_card">
         <h2>Iniciar sesión</h2>
         <p>¡Bienvenido de nuevo! Por favor, ingrese sus credenciales para continuar.</p>
-        <TextField label="Correo" fullWidth focused required />
+        <TextField label="Correo" type="email" name="email" fullWidth focused required />
         <FormControl
           sx={{ mt: 5, width: "100%" }}
           variant="outlined"
@@ -65,6 +64,7 @@ export default function Index() {
           <OutlinedInput
             id="outlined-adornment-password"
             type={showPassword ? "text" : "password"}
+            name="password"
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
@@ -99,10 +99,45 @@ export default function Index() {
             Ingresar
           </Button>
         </FormControl>
-      </div>
+      </Form>
       <div className="copyright_container">
         <Copyright />
       </div>
     </div>
   );
 }
+
+
+// Second, we need to export an action function, here we will use the
+// `authenticator.authenticate method`
+export async function action({ request }: ActionFunctionArgs) {
+  try {
+    return await authenticator.authenticate("user-pass", request, {
+      successRedirect: "/dashboard",
+      throwOnError: true,
+    });
+  } catch (error) {
+    if (error instanceof Response) return error;
+    if (error instanceof AuthorizationError) {
+      // Error relacionado con el proceso de autenticación
+    }
+    // Error genérico
+  }
+};
+
+// Finally, we can export a loader function where we check if the user is
+// authenticated with `authenticator.isAuthenticated` and redirect to the
+// dashboard if it is or return null if it's not
+export async function loader({ request }: LoaderFunctionArgs) {
+
+  return await authenticator.isAuthenticated(request, {
+    successRedirect: "/usuario",
+  });
+  // let session = await getSession(request.headers.get("cookie"));
+  // let error = session.get(authenticator.sessionErrorKey);
+  // return json({ error }, {
+  //   headers:{
+  //     'Set-Cookie': await commitSession(session)
+  //   }
+  // });
+};

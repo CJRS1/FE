@@ -23,7 +23,8 @@
     "@tabler/icons-react": "^3.5.0",
     "react": "latest",
     "react-dom": "latest",
-    "remix-auth": "^3.6.0"
+    "remix-auth": "^3.6.0",
+    "remix-auth-form": "^1.5.0"
   },
   "devDependencies": {
     "@remix-run/dev": "latest",
