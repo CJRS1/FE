@@ -1,0 +1,86 @@
+@charset "UTF-8";
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  margin: 0;
+  padding: 0;
+}
+
+.css-zitybv {
+  margin: 0 !important;
+}
+
+.css-cuefkz-MuiContainer-root {
+  width: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.css-ipzbba-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: rgb(94, 53, 177) !important;
+}
+
+.css-d71x1r-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: rgb(94, 53, 177) !important;
+}
+
+.css-p05lec-MuiButtonBase-root-MuiButton-root {
+  border-color: rgb(94, 53, 177) !important;
+  color: rgb(94, 53, 177) !important;
+}
+
+.css-vwquso-MuiFormLabel-root-MuiInputLabel-root.Mui-focused {
+  color: rgb(94, 53, 177) !important;
+}
+
+/* Eliminar decoración de listas */
+ul {
+  list-style: none; /* Quitar los puntos o números de la lista */
+  padding: 0; /* Quitar padding por defecto */
+  margin: 0; /* Quitar margin por defecto */
+}
+
+/* Eliminar decoración de elementos de lista */
+li {
+  text-decoration: none;
+}
+
+/* Estilos para botones */
+button {
+  text-decoration: none; /* Quitar subrayado */
+  border: none; /* Quitar borde por defecto */
+  background: none; /* Quitar fondo por defecto */
+  padding: 0; /* Quitar padding por defecto */
+  cursor: pointer; /* Cambiar cursor a puntero */
+  font-family: inherit; /* Usar la misma fuente que el contenedor */
+  font-size: inherit; /* Usar el mismo tamaño de fuente que el contenedor */
+  color: inherit; /* Heredar el color del texto */
+  outline: none; /* Quitar outline al hacer click */
+}
+
+.container {
+  display: flex;
+  width: 100%;
+}
+
+.windows_container {
+  width: calc(100% - 260px);
+  margin-left: 0;
+  transition: margin 225ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+}
+
+.windows_container_full {
+  width: 100%;
+  margin-left: -260px;
+  transition: margin 1000ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+}
+
+@media (min-width: 600px) {
+  .css-cuefkz-MuiContainer-root {
+    min-width: 100% !important;
+  }
+}/*# sourceMappingURL=root.css.map */

@@ -1,0 +1,143 @@
+.header_container {
+  width: 100%;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.header_container nav {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.header_container nav ul {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 40px 0 60px;
+}
+.header_container nav ul .title_page {
+  color: rgb(94, 53, 177);
+  width: 150px;
+  font-size: 25px;
+  font-weight: bold;
+}
+.header_container nav ul li .button_sidebar {
+  background: rgba(0, 0, 0, 0.1);
+  color: rgb(94, 53, 177);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  padding: 5px;
+  margin-left: 20px;
+  transition: 0.3s ease-in-out;
+}
+.header_container nav ul li .button_sidebar:hover {
+  background: rgb(94, 53, 177);
+  color: white;
+}
+.header_container nav ul .profile_section {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  cursor: pointer;
+  background: rgb(238, 242, 246);
+  width: 120px;
+  height: 55px;
+  border-radius: 25px;
+}
+.header_container nav ul .profile_section span {
+  width: 40px;
+  height: 40px;
+  font-weight: bold;
+  font-size: 20px;
+  background: rgb(33, 150, 243);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.header_container nav ul .profile_section .button_settings {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  border-radius: 50%;
+  padding: 5px;
+  transition: 0.3s ease-in-out;
+}
+.header_container nav ul .profile_section .button_settings:hover {
+  background: rgb(0, 0, 0);
+  color: white;
+}
+.header_container nav ul .profile_section:hover {
+  background: rgb(33, 150, 243);
+  color: white;
+}
+.header_container nav ul .profile_section:hover span {
+  border: 3px solid white;
+}
+.header_container .user_info {
+  width: 400px;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 8px 10px, rgba(0, 0, 0, 0.14) 0px 16px 24px 2px, rgba(0, 0, 0, 0.12) 0px 6px 30px;
+  background: white;
+  position: absolute;
+  z-index: 10;
+  top: 80px;
+  right: 40px;
+  padding: 15px;
+  visibility: visible;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+.header_container .user_info .name_color_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.header_container .user_info .name_color_container h3 {
+  margin: 0;
+  font-weight: 300;
+  font-size: 16px;
+  vertical-align: middle;
+}
+.header_container .user_info h4 {
+  margin: 0;
+  font-weight: 300;
+  font-size: 16px;
+}
+.header_container .user_info ul {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-top: 15px;
+  padding: 0;
+}
+.header_container .user_info ul li {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  height: 40px;
+  padding-left: 20px;
+  margin-bottom: 5px;
+  border-radius: 15px;
+  font-weight: 500;
+  transition: 0.3s ease-in-out;
+}
+.header_container .user_info ul li span {
+  padding-left: 15px;
+}
+.header_container .user_info ul li:hover {
+  cursor: pointer;
+  background: rgb(237, 231, 246);
+  color: rgb(94, 53, 177);
+}
+.header_container .user_info_hide {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}/*# sourceMappingURL=header.css.map */

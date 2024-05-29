@@ -1,0 +1,81 @@
+.login_container {
+  height: calc(100vh - 30px);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.login_container .login_card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 450px;
+  padding: 20px 40px 50px 40px;
+  border-radius: 20px;
+  box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.2);
+}
+.login_container .login_card h2 {
+  color: rgb(94, 53, 177);
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+.login_container .login_card p {
+  font-size: 18px;
+  color: rgb(94, 53, 177);
+  font-weight: 400;
+  margin-bottom: 30px;
+  text-align: justify;
+}
+.login_container .options_container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+.login_container .options_container a {
+  font-size: 16px;
+  color: rgb(94, 53, 177);
+  font-weight: bold;
+  text-decoration: none !important;
+}
+.login_container .options_container h4 {
+  font-size: 14px;
+  font-weight: 400;
+}
+.login_container .options_container a:hover {
+  text-decoration: underline !important;
+}
+.login_container .copyright_container {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgb(94, 53, 177);
+  color: white;
+}
+
+.css-1vl95ex-MuiTypography-root {
+  color: white !important;
+}
+
+@media (max-width: 500px) {
+  .login_card {
+    margin: 0 20px;
+    padding: 20px 20px !important;
+  }
+  .login_card h2 {
+    font-size: 25px;
+  }
+  .options_container {
+    flex-direction: column;
+    margin-top: 10px;
+  }
+  .options_container .remember_container a {
+    color: rgb(94, 53, 177);
+    font-weight: bold;
+  }
+}/*# sourceMappingURL=login.css.map */

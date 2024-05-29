@@ -1,0 +1,7 @@
+.user_container {
+  background: rgb(238, 242, 246);
+  min-height: calc(100vh - 100px);
+  padding: 25px;
+  margin: 0 20px 20px 20px;
+  border-radius: 20px;
+}/*# sourceMappingURL=user.css.map */
