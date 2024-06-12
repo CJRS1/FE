@@ -1,6 +1,6 @@
 import * as React from "react";
-import type { LinksFunction, MetaFunction } from "@remix-run/node";
-import { Link as RemixLink } from "@remix-run/react";
+import type { LinksFunction, LoaderFunction, MetaFunction } from "@remix-run/node";
+import { Link as RemixLink, json, redirect } from "@remix-run/react";
 import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
 import FormControl from "@mui/material/FormControl";
@@ -16,6 +16,12 @@ import { AuthorizationError } from "remix-auth";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { Form } from "@remix-run/react";
 import { authenticator } from "~/services/auth.server";
+
+import {
+  commitSession,
+  getSession,
+  sessionStorage,
+} from "~/services/session.server";
 
 // export links
 export const links: LinksFunction = () => [
@@ -35,7 +41,7 @@ export const meta: MetaFunction = () => [
 ];
 
 // https://remix.run/docs/en/main/file-conventions/routes#basic-routes
-export default function Index() {
+export default function Login() {
   const [showPassword, setShowPassword] = React.useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -50,8 +56,18 @@ export default function Index() {
     <div className="login_container">
       <Form method="post" className="login_card">
         <h2>Iniciar sesión</h2>
-        <p>¡Bienvenido de nuevo! Por favor, ingrese sus credenciales para continuar.</p>
-        <TextField label="Correo" type="email" name="email" fullWidth focused required />
+        <p>
+          ¡Bienvenido de nuevo! Por favor, ingrese sus credenciales para
+          continuar.
+        </p>
+        <TextField
+          label="Correo"
+          type="email"
+          name="email"
+          fullWidth
+          focused
+          required
+        />
         <FormControl
           sx={{ mt: 5, width: "100%" }}
           variant="outlined"
@@ -87,14 +103,14 @@ export default function Index() {
               />
               <h4>Recordar mi cuenta</h4>
             </div> */}
-            <RemixLink to="/recover_password" prefetch="intent" >
+            <RemixLink to="/recover_password" prefetch="intent">
               ¿Olvidaste tu contraseña?
             </RemixLink>
           </div>
           <Button
             sx={{ mt: 3, width: "100%" }}
             variant="outlined"
-            href="#outlined-buttons"
+            type="submit"
           >
             Ingresar
           </Button>
@@ -107,37 +123,49 @@ export default function Index() {
   );
 }
 
+export let loader: LoaderFunction = async ({ request }) => {
+  const isAuthenticated = await authenticator.isAuthenticated(request);
 
-// Second, we need to export an action function, here we will use the
-// `authenticator.authenticate method`
-export async function action({ request }: ActionFunctionArgs) {
-  try {
-    return await authenticator.authenticate("user-pass", request, {
-      successRedirect: "/dashboard",
-      throwOnError: true,
-    });
-  } catch (error) {
-    if (error instanceof Response) return error;
-    if (error instanceof AuthorizationError) {
-      // Error relacionado con el proceso de autenticación
-    }
-    // Error genérico
+  if (isAuthenticated) {
+    return redirect('/usuario');
   }
+
+  const session = await sessionStorage.getSession(
+    request.headers.get("Cookie")
+  );
+
+  const error = session.get("sessionErrorKey");
+  return json<any>({ error });
 };
 
-// Finally, we can export a loader function where we check if the user is
-// authenticated with `authenticator.isAuthenticated` and redirect to the
-// dashboard if it is or return null if it's not
-export async function loader({ request }: LoaderFunctionArgs) {
 
-  return await authenticator.isAuthenticated(request, {
-    successRedirect: "/usuario",
-  });
-  // let session = await getSession(request.headers.get("cookie"));
-  // let error = session.get(authenticator.sessionErrorKey);
-  // return json({ error }, {
-  //   headers:{
-  //     'Set-Cookie': await commitSession(session)
-  //   }
+export async function action({ request }: ActionFunctionArgs) {
+  console.log("ACTION");
+  console.log("ACTION");
+  // try {
+  // return await authenticator.authenticate("user-pass", request, {
+  //   successRedirect: "/usuario",
+  //   failureRedirect: "/login",
+  //   throwOnError: true,
   // });
-};
+  let session = await getSession(request.headers.get("Cookie"));
+
+  console.log("lasession", session.data);
+
+  const token = await authenticator.authenticate("user-pass", request, {
+    successRedirect: "/usuario",
+    failureRedirect: "/login",
+    throwOnError: true,
+  });
+  console.log('jejetoken', token)
+  session.set("token", token); 
+
+  console.log('tokenxd', token);
+  console.log('tokenxd', token)
+  return redirect("/usuario", {
+    headers: {
+      "Set-Cookie": `token=${token}`,
+    },
+  });
+
+}

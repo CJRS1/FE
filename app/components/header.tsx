@@ -1,18 +1,29 @@
 import * as React from "react";
-import { useState } from "react";
-import { Link } from "@remix-run/react";
-import type { LinksFunction } from "@remix-run/node";
+import { useState, useEffect } from "react";
+import { Form, json, Link } from "@remix-run/react";
+import type {
+  ActionFunctionArgs,
+  LinksFunction,
+  LoaderFunctionArgs,
+  Session,
+  SessionData,
+} from "@remix-run/node";
 import MenuIcon from "@mui/icons-material/Menu";
 import SettingsIcon from "@mui/icons-material/Settings";
 import headerStyles from "../styles/header.css";
 import greetings from "../utils/greetings";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { useLoaderData } from "@remix-run/react";
 
 import { styled } from "@mui/material/styles";
 import Switch, { SwitchProps } from "@mui/material/Switch";
 
+import { jwtDecode } from "jwt-decode";
+
 import "../styles/header.css";
+import { getSession } from "~/services/session.server";
+import { authenticator } from "~/services/auth.server";
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   width: 62,
@@ -71,6 +82,9 @@ export const links: LinksFunction = () => [
 export default function Header({ toggleSidebar }: any) {
   const [showMenu, setShowMenu] = React.useState(false);
 
+  const user = useLoaderData();
+  console.log('usuario',user)
+
   const handleClickShowMenu = () => setShowMenu((show) => !show);
   const horaActual = new Date().getHours();
   const hi = greetings(horaActual);
@@ -97,8 +111,10 @@ export default function Header({ toggleSidebar }: any) {
           className={`${showMenu ? "user_info" : "user_info user_info_hide"}`}
         >
           <div className="name_color_container">
-          <h3><strong>{hi},</strong> Christian Reyes</h3>
-          <MaterialUISwitch />
+            <h3>
+              <strong>{hi},</strong> 
+            </h3>
+            <MaterialUISwitch />
           </div>
           <h4>Contador</h4>
           <hr />
@@ -108,8 +124,12 @@ export default function Header({ toggleSidebar }: any) {
               <span>Configuración</span>
             </li>
             <li>
-              <LogoutIcon sx={{ fontSize: 25 }} />
-              <span>Cerrar sesión</span>
+              <Form method="post" action="/logout">
+                <button type="submit" className="logout_button">
+                  <LogoutIcon sx={{ fontSize: 25 }} />
+                  <span>Cerrar sesión</span>
+                </button>
+              </Form>
             </li>
           </ul>
         </div>
@@ -117,3 +137,9 @@ export default function Header({ toggleSidebar }: any) {
     </header>
   );
 }
+
+
+export async function action({ request }: ActionFunctionArgs) {
+  await authenticator.logout(request, { redirectTo: "/login" });
+}
+

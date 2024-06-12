@@ -1,9 +1,10 @@
+import * as React from "react";
 import { Link } from "@remix-run/react";
 import type { LinksFunction } from "@remix-run/node";
 import PermContactCalendarIcon from "@mui/icons-material/PermContactCalendar";
 import { useState } from "react";
 
-function Sidebar({ showSidebar } : any) {
+function Sidebar({ showSidebar } : { showSidebar: boolean }) {
 
     // const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
@@ -30,7 +31,7 @@ function Sidebar({ showSidebar } : any) {
         </li>
       </ul>
     </nav>
-  );
+  ); 
 }
 
 export default Sidebar;

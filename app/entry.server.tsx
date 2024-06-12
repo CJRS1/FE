@@ -1,5 +1,5 @@
-import * as React from 'react';
-import * as ReactDOMServer from 'react-dom/server';
+import React from 'react';
+import { renderToString } from 'react-dom/server';
 import { RemixServer } from '@remix-run/react';
 import type { EntryContext } from '@remix-run/node';
 import createEmotionCache from './src/createEmotionCache';
@@ -22,7 +22,6 @@ export default function handleRequest(
     return (
       <CacheProvider value={cache}>
         <ThemeProvider theme={theme}>
-          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />
           <RemixServer context={remixContext} url={request.url} />
         </ThemeProvider>
@@ -30,10 +29,7 @@ export default function handleRequest(
     );
   }
 
-  // Render the component to a string.
-  const html = ReactDOMServer.renderToString(<MuiRemixServer />);
-
-  // Grab the CSS from emotion
+  const html = renderToString(<MuiRemixServer />);
   const { styles } = extractCriticalToChunks(html);
 
   let stylesHTML = '';
@@ -44,7 +40,6 @@ export default function handleRequest(
     stylesHTML = `${stylesHTML}${newStyleTag}`;
   });
 
-  // Add the Emotion style tags after the insertion point meta tag
   const markup = html.replace(
     /<meta(\s)*name="emotion-insertion-point"(\s)*content="emotion-insertion-point"(\s)*\/>/,
     `<meta name="emotion-insertion-point" content="emotion-insertion-point"/>${stylesHTML}`,

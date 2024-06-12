@@ -1,6 +1,14 @@
 // app/services/session.server.ts
 import { createCookieSessionStorage } from "@remix-run/node";
 
+const sessionSecret = process.env.SESSION_SECRET;
+
+console.log(sessionSecret)
+
+if (!sessionSecret) {
+  throw new Error('SESSION_SECRET is not set. Please set it in your environment variables.');
+}
+
 // export the whole sessionStorage object
 export let sessionStorage = createCookieSessionStorage({
   cookie: {
@@ -8,10 +16,14 @@ export let sessionStorage = createCookieSessionStorage({
     sameSite: "lax", // this helps with CSRF
     path: "/", // remember to add this so the cookie will work in all routes
     httpOnly: true, // for security reasons, make this cookie http only
-    secrets: ["s3cr3t"], // replace this with an actual secret
+    secrets: [sessionSecret], // replace this with an actual secret
     secure: process.env.NODE_ENV === "production", // enable this in prod only
   },
 });
 
 // you can also export the methods individually for your own usage
 export let { getSession, commitSession, destroySession } = sessionStorage;
+
+export type User = {
+  nombres: string;
+};
