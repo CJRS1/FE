@@ -24,8 +24,9 @@ import { jwtDecode } from "jwt-decode";
 
 import "../styles/header.css";
 import { getSession } from "~/services/session.server";
-import  authenticator  from "~/services/auth.server";
-import getfirstword from '../utils/getfirstword'
+import authenticator from "~/services/auth.server";
+import getfirstword from "../utils/getfirstword";
+import getfirstletter from "../utils/getfirstletter";
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   width: 62,
@@ -86,13 +87,40 @@ type User = {
   apellido: string;
 };
 
-export default function Header({ toggleSidebar, user }: {toggleSidebar: any , user:User}) {
+export default function Header({
+  toggleSidebar,
+  user,
+}: {
+  toggleSidebar: any;
+  user: User;
+}) {
   const [showMenu, setShowMenu] = React.useState(false);
+  const menuRef = React.useRef<HTMLDivElement>(null);
 
-  const nombre = getfirstword(user.nombre)
-  const apellido = getfirstword(user.apellido)
+  const nombre = getfirstword(user.nombre);
+  const letra_nombre = getfirstletter(user.nombre);
+  const apellido = getfirstword(user.apellido);
+  const letra_apellido = getfirstletter(user.apellido);
 
   const handleClickShowMenu = () => setShowMenu((show) => !show);
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+      setShowMenu(false);
+    }
+  };
+
+  useEffect(() => {
+    if (showMenu) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showMenu]);
+
   const horaActual = new Date().getHours();
   const hi = greetings(horaActual);
   return (
@@ -109,12 +137,13 @@ export default function Header({ toggleSidebar, user }: {toggleSidebar: any , us
         <ul>
           <li>
             <button className="profile_section" onClick={handleClickShowMenu}>
-              <span>PL</span>
+              <span>{letra_nombre}{letra_apellido}</span>
               <SettingsIcon />
             </button>
           </li>
         </ul>
         <div
+          ref={menuRef}
           className={`${showMenu ? "user_info" : "user_info user_info_hide"}`}
         >
           <div className="name_color_container">
@@ -123,7 +152,9 @@ export default function Header({ toggleSidebar, user }: {toggleSidebar: any , us
             </h3>
             <MaterialUISwitch />
           </div>
-          <h4><strong>Contador</strong></h4>
+          <h4>
+            <strong>Contador</strong>
+          </h4>
           <hr />
           <ul>
             <li>
@@ -145,8 +176,6 @@ export default function Header({ toggleSidebar, user }: {toggleSidebar: any , us
   );
 }
 
-
 export async function action({ request }: ActionFunctionArgs) {
   await authenticator.logout(request, { redirectTo: "/login" });
 }
-
