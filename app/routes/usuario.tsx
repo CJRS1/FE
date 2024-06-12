@@ -32,7 +32,7 @@ export const links = () => [
 
 // https://remix.run/docs/en/main/route/meta
 export const meta: MetaFunction = () => [
-  { title: "FE | Usuario" },
+  { title: "RSFE | Usuario" },
   {
     name: "description",
     content: "Aquí se muestra la lista de usuarios",
@@ -186,4 +186,10 @@ export default function User() {
       </div>
     </div>
   );
+}
+
+export let loader: LoaderFunction = async ({request}) => {
+  return await authenticator.isAuthenticated(request, {
+    failureRedirect: "/login"
+  })
 }

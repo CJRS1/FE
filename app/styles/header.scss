@@ -128,15 +128,22 @@
         border-radius: 15px;
         font-weight: 500;
         transition: 0.3s ease-in-out;
+        .logout_button{
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
         span{
           padding-left: 15px;
         }
+
       }
       li:hover{
         cursor: pointer;
         background: rgb(237, 231, 246);
         color: rgb(94, 53, 177);
       }
+
     }
   }
   .user_info_hide {

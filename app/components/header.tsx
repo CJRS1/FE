@@ -25,6 +25,7 @@ import { jwtDecode } from "jwt-decode";
 import "../styles/header.css";
 import { getSession } from "~/services/session.server";
 import  authenticator  from "~/services/auth.server";
+import getfirstword from '../utils/getfirstword'
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   width: 62,
@@ -88,6 +89,9 @@ type User = {
 export default function Header({ toggleSidebar, user }: {toggleSidebar: any , user:User}) {
   const [showMenu, setShowMenu] = React.useState(false);
 
+  const nombre = getfirstword(user.nombre)
+  const apellido = getfirstword(user.apellido)
+
   const handleClickShowMenu = () => setShowMenu((show) => !show);
   const horaActual = new Date().getHours();
   const hi = greetings(horaActual);
@@ -115,7 +119,7 @@ export default function Header({ toggleSidebar, user }: {toggleSidebar: any , us
         >
           <div className="name_color_container">
             <h3>
-              <strong>{hi},</strong> {user.nombre} {user.apellido}
+              <strong>{hi},</strong> {nombre} {apellido}
             </h3>
             <MaterialUISwitch />
           </div>
