@@ -3,7 +3,7 @@ import type { LoaderFunction, MetaFunction } from '@remix-run/node';
 import { Link as RemixLink, useLoaderData } from '@remix-run/react';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
-import { authenticator } from '~/services/auth.server';
+import  authenticator  from '~/services/auth.server';
 
 // https://remix.run/docs/en/main/route/meta
 export const meta: MetaFunction = () => [

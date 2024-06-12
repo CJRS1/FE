@@ -4,6 +4,7 @@ import { Form, json, Link } from "@remix-run/react";
 import type {
   ActionFunctionArgs,
   LinksFunction,
+  LoaderFunction,
   LoaderFunctionArgs,
   Session,
   SessionData,
@@ -23,7 +24,7 @@ import { jwtDecode } from "jwt-decode";
 
 import "../styles/header.css";
 import { getSession } from "~/services/session.server";
-import { authenticator } from "~/services/auth.server";
+import  authenticator  from "~/services/auth.server";
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   width: 62,
@@ -79,11 +80,13 @@ export const links: LinksFunction = () => [
   },
 ];
 
-export default function Header({ toggleSidebar }: any) {
-  const [showMenu, setShowMenu] = React.useState(false);
+type User = {
+  nombre: string;
+  apellido: string;
+};
 
-  const user = useLoaderData();
-  console.log('usuario',user)
+export default function Header({ toggleSidebar, user }: {toggleSidebar: any , user:User}) {
+  const [showMenu, setShowMenu] = React.useState(false);
 
   const handleClickShowMenu = () => setShowMenu((show) => !show);
   const horaActual = new Date().getHours();
@@ -112,11 +115,11 @@ export default function Header({ toggleSidebar }: any) {
         >
           <div className="name_color_container">
             <h3>
-              <strong>{hi},</strong> 
+              <strong>{hi},</strong> {user.nombre} {user.apellido}
             </h3>
             <MaterialUISwitch />
           </div>
-          <h4>Contador</h4>
+          <h4><strong>Contador</strong></h4>
           <hr />
           <ul>
             <li>

@@ -5,8 +5,18 @@ import Box from "@mui/material/Box";
 import ProTip from "./ProTip";
 import Sidebar from "../components/sidebarmenu";
 import Header from "../components/header";
+import { LoaderFunction, LoaderFunctionArgs, json } from "@remix-run/server-runtime";
+import authenticator from "~/services/auth.server";
+import { getSession } from "~/services/session.server";
+import { jwtDecode } from "jwt-decode";
+import { useLoaderData } from "@remix-run/react";
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+type User = {
+  nombre: string;
+  apellido: string;
+};
+
+export default function Layout({ children, user }: { children: React.ReactNode, user: User } ) {
   const [showSidebar, setShowSidebar] = useState(false);
 
   const toggleSidebar = () => {
@@ -15,7 +25,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <Container maxWidth="sm">
       {/* <Header /> */}
-      <Header toggleSidebar={toggleSidebar} />
+      <Header toggleSidebar={toggleSidebar} user={user} />
       <div className="container">
         {/* <Sidebar /> */}
         <Sidebar showSidebar={showSidebar} />
@@ -31,3 +41,5 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     </Container>
   );
 }
+
+

@@ -19,7 +19,7 @@ import userStyles from "~/styles/user.css";
 import { getSession } from "~/services/session.server";
 import { jwtDecode } from "jwt-decode";
 import { commitSession, sessionStorage} from '~/services/session.server';
-import { authenticator } from "~/services/auth.server";
+import  authenticator  from "~/services/auth.server";
 // import { esES } from '@mui/x-data-grid/locales';
 
 // export links
@@ -112,11 +112,11 @@ export const meta: MetaFunction = () => [
 
 // https://remix.run/docs/en/main/file-conventions/routes#basic-routes
 export default function User() {
-  const data = useLoaderData();
+
   return (
     <div className="user_container">
       <div className="user_card">
-        <h2>Usuario</h2>
+        <h2>USUARIO</h2>
         <TextField label="Correo" fullWidth focused required />
         <div className="guser_table structure_table">
           {/* {Array.isArray(estructuras) && estructuras.length > 0 ? (
@@ -187,39 +187,3 @@ export default function User() {
     </div>
   );
 }
-
-export const loader: LoaderFunction = async ({ request }: LoaderFunctionArgs) => {
-  // Primero, verifica si el usuario está autenticado
-  const isAuthenticated = await authenticator.isAuthenticated(request, {
-    failureRedirect: "/login", // Redirige a /login si no está autenticado
-  });
-
-  console.log("Iniciando loader");
-  const cookieHeader = request.headers.get("Cookie");
-  if (!cookieHeader) {
-    console.log("No se encontraron cookies");
-    return json(null);
-  }
-  const session = await getSession(cookieHeader);
-  // Verificar el contenido de la sesión
-  console.log("Contenido de la sesión:", session.data);
-  const token = session.get("token");
-  console.log("Token obtenido de la sesión:", token);
-  if (!token) {
-    return json(null);
-  }
-  try {
-    console.log("holaa");
-    const decodedToken: any = jwtDecode(token);
-    console.log(decodedToken);
-    const user = {
-      nombre: decodedToken.nombres,
-      apellido: decodedToken.apellidos,
-    };
-    console.log("Usuario decodificado:", user); // Verifica que el token se decodifica correctamente
-    return json(user);
-  } catch (error) {
-    console.error("Error al decodificar el token:", error);
-    return json(null);
-  }
-};

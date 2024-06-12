@@ -9,6 +9,7 @@ import {
   useRouteError,
   isRouteErrorResponse,
   useLocation,
+  useLoaderData,
 } from '@remix-run/react';
 import { withEmotionCache } from '@emotion/react';
 import { unstable_useEnhancedEffect as useEnhancedEffect } from '@mui/material';
@@ -19,9 +20,10 @@ import Layout from './src/Layout';
 import rootStyles from "~/styles/root.css";
 import sidebarmenuStyles from "~/styles/sidebarmenu.css";
 import headerStyles from "~/styles/header.css";
-import { LoaderFunctionArgs, json } from '@remix-run/server-runtime';
+import { LoaderFunction, LoaderFunctionArgs, json } from '@remix-run/server-runtime';
 import { getSession } from './services/session.server';
 import { jwtDecode } from 'jwt-decode';
+import authenticator from './services/auth.server';
 
 // export links
 export const links = () => [
@@ -92,18 +94,24 @@ const Document = withEmotionCache(({ children, title }: DocumentProps, emotionCa
   );
 });
 
+type User = {
+  nombre: string;
+  apellido: string;
+};
+
 // https://remix.run/docs/en/main/route/component
 // https://remix.run/docs/en/main/file-conventions/routes
 export default function App() {
   let location = useLocation();
   let isLoginRoute = location.pathname === "/login";
-
+  const user : User = useLoaderData();
+  console.log('ladat2a',user)
   return (
     <Document>
       {isLoginRoute ? (
         <Outlet />
       ) : (
-        <Layout>
+        <Layout user={user} >
           <Outlet />
         </Layout>
       )}
@@ -114,7 +122,8 @@ export default function App() {
 // https://remix.run/docs/en/main/route/error-boundary
 export function ErrorBoundary() {
   const error = useRouteError();
-
+  const user : User = useLoaderData();
+  console.log('ladat2a',user)
   if (isRouteErrorResponse(error)) {
     let message;
     switch (error.status) {
@@ -131,7 +140,7 @@ export function ErrorBoundary() {
 
     return (
       <Document title={`${error.status} ${error.statusText}`}>
-        <Layout>
+        <Layout user={user} >
           <h1>
             {error.status}: {error.statusText}
           </h1>
@@ -145,7 +154,7 @@ export function ErrorBoundary() {
     console.error(error);
     return (
       <Document title="Error!">
-        <Layout>
+        <Layout user={user}>
           <div>
             <h1>There was an error</h1>
             <p>{error.message}</p>
@@ -161,3 +170,38 @@ export function ErrorBoundary() {
 }
 
 
+export const loader: LoaderFunction = async ({ request }: LoaderFunctionArgs) => {
+  // Primero, verifica si el usuario está autenticado
+  const isAuthenticated = await authenticator.isAuthenticated(request, {
+    failureRedirect: "/login", // Redirige a /login si no está autenticado
+  });
+
+  console.log("Iniciando loader");
+  const cookieHeader = request.headers.get("Cookie");
+  if (!cookieHeader) {
+    console.log("No se encontraron cookies");
+    return json(null);
+  }
+  const session = await getSession(cookieHeader);
+  // Verificar el contenido de la sesión
+  console.log("Contenido de la sesión:", session.data);
+  const token = session.get("sessionKey").token;
+  console.log("Token obtenido de la sesión:", token);
+  if (!token) {
+    return json(null);
+  }
+  try {
+    console.log("holaa");
+    const decodedToken: any = jwtDecode(token);
+    console.log(decodedToken);
+    const user = {
+      nombre: decodedToken.nombres,
+      apellido: decodedToken.apellidos,
+    };
+    console.log("Usuario decodificado:", user); // Verifica que el token se decodifica correctamente
+    return json(user);
+  } catch (error) {
+    console.error("Error al decodificar el token:", error);
+    return json(null);
+  }
+};

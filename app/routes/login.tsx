@@ -1,6 +1,6 @@
 import * as React from "react";
 import type { LinksFunction, LoaderFunction, MetaFunction } from "@remix-run/node";
-import { Link as RemixLink, json, redirect } from "@remix-run/react";
+import { Link as RemixLink, json, redirect, useLoaderData } from "@remix-run/react";
 import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
 import FormControl from "@mui/material/FormControl";
@@ -15,7 +15,7 @@ import Copyright from "../src/Copyright";
 import { AuthorizationError } from "remix-auth";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { Form } from "@remix-run/react";
-import { authenticator } from "~/services/auth.server";
+import  authenticator  from "~/services/auth.server";
 
 import {
   commitSession,
@@ -45,6 +45,9 @@ export default function Login() {
   const [showPassword, setShowPassword] = React.useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const loaderData = useLoaderData();
+  console.log('data',loaderData);
 
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
@@ -124,15 +127,15 @@ export default function Login() {
 }
 
 export let loader: LoaderFunction = async ({ request }) => {
-  const isAuthenticated = await authenticator.isAuthenticated(request);
-
-  if (isAuthenticated) {
-    return redirect('/usuario');
-  }
+  await authenticator.isAuthenticated(request, {
+    successRedirect : "/usuario"
+  });
 
   const session = await sessionStorage.getSession(
     request.headers.get("Cookie")
   );
+
+  console.log('session', session.data)
 
   const error = session.get("sessionErrorKey");
   return json<any>({ error });
@@ -140,32 +143,15 @@ export let loader: LoaderFunction = async ({ request }) => {
 
 
 export async function action({ request }: ActionFunctionArgs) {
-  console.log("ACTION");
-  console.log("ACTION");
-  // try {
-  // return await authenticator.authenticate("user-pass", request, {
-  //   successRedirect: "/usuario",
-  //   failureRedirect: "/login",
-  //   throwOnError: true,
-  // });
-  let session = await getSession(request.headers.get("Cookie"));
 
-  console.log("lasession", session.data);
-
-  const token = await authenticator.authenticate("user-pass", request, {
+  console.log('Action')
+  const resp = await authenticator.authenticate("user-pass", request, {
     successRedirect: "/usuario",
     failureRedirect: "/login",
     throwOnError: true,
-  });
-  console.log('jejetoken', token)
-  session.set("token", token); 
+    }); 
+  console.log('La respuesta', resp)
 
-  console.log('tokenxd', token);
-  console.log('tokenxd', token)
-  return redirect("/usuario", {
-    headers: {
-      "Set-Cookie": `token=${token}`,
-    },
-  });
+  return resp;
 
 }
