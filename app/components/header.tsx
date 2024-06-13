@@ -1,31 +1,20 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { Form, json, Link } from "@remix-run/react";
-import type {
-  ActionFunctionArgs,
-  LinksFunction,
-  LoaderFunction,
-  LoaderFunctionArgs,
-  Session,
-  SessionData,
-} from "@remix-run/node";
+import type { ActionFunctionArgs, LinksFunction } from "@remix-run/node";
 import MenuIcon from "@mui/icons-material/Menu";
 import SettingsIcon from "@mui/icons-material/Settings";
 import headerStyles from "../styles/header.css";
 import greetings from "../utils/greetings";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { useLoaderData } from "@remix-run/react";
-
 import { styled } from "@mui/material/styles";
-import Switch, { SwitchProps } from "@mui/material/Switch";
-
-import { jwtDecode } from "jwt-decode";
-
+import Switch from "@mui/material/Switch";
 import "../styles/header.css";
-import { getSession } from "~/services/session.server";
 import authenticator from "~/services/auth.server";
 import getfirstword from "../utils/getfirstword";
+import getpagebyurl from "../utils/getpagebyurl";
 import getfirstletter from "../utils/getfirstletter";
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
@@ -97,13 +86,23 @@ export default function Header({
   const [showMenu, setShowMenu] = React.useState(false);
   const menuRef = React.useRef<HTMLDivElement>(null);
 
+  // const location = useLocation()
+  // console.log('location',location.pathname)
+  // const page = getpagebyurl(location.pathname)
+
   const nombre = getfirstword(user.nombre);
   const letra_nombre = getfirstletter(user.nombre);
   const apellido = getfirstword(user.apellido);
   const letra_apellido = getfirstletter(user.apellido);
 
-  const handleClickShowMenu = () => setShowMenu((show) => !show);
+  const handleClickShowMenu = () => {
+    setShowMenu((show) => {
+      console.log("hola"); // Imprime 'hola' en la consola
+      return !show; // Alterna el estado de showMenu
+    });
+  };
 
+  console.log("menu", showMenu);
   const handleClickOutside = (event: MouseEvent) => {
     if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
       setShowMenu(false);
@@ -121,13 +120,14 @@ export default function Header({
     };
   }, [showMenu]);
 
+
   const horaActual = new Date().getHours();
   const hi = greetings(horaActual);
   return (
     <header className="header_container">
       <nav>
         <ul>
-          <li className="title_page">USUARIOS</li>
+          <li className="title_page"> xd</li>
           <li>
             <button className="button_sidebar" onClick={toggleSidebar}>
               <MenuIcon />
@@ -137,13 +137,16 @@ export default function Header({
         <ul>
           <li>
             <button className="profile_section" onClick={handleClickShowMenu}>
-              <span>{letra_nombre}{letra_apellido}</span>
+              <span>
+                {letra_nombre}
+                {letra_apellido}
+              </span>
               <SettingsIcon />
             </button>
           </li>
         </ul>
         <div
-          ref={menuRef}
+          // ref={menuRef}
           className={`${showMenu ? "user_info" : "user_info user_info_hide"}`}
         >
           <div className="name_color_container">

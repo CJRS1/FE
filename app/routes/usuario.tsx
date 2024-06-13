@@ -32,7 +32,7 @@ export const links = () => [
 
 // https://remix.run/docs/en/main/route/meta
 export const meta: MetaFunction = () => [
-  { title: "RSFE | Usuario" },
+  { title: "RS_FE | Usuario" },
   {
     name: "description",
     content: "Aquí se muestra la lista de usuarios",

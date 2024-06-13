@@ -23,9 +23,9 @@ const theme = createTheme({
     secondary: {
       main: '#ffffff',
     },
-    error: {
-      main: red.A400,
-    },
+    // error: {
+    //   main: red.A400,
+    // },
   },
 });
 

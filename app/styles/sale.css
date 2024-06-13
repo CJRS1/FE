@@ -1,0 +1,17 @@
+.sale_card {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+.sale_card .css-wb57ya-MuiFormControl-root-MuiTextField-root {
+  margin: 0 20px;
+}
+.sale_card .css-1869usk-MuiFormControl-root {
+  width: 100%;
+  min-width: auto;
+  margin: 0 20px;
+}
+.sale_card .client_info_container {
+  width: 200%;
+  display: flex;
+}/*# sourceMappingURL=sale.css.map */

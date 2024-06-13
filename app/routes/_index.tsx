@@ -21,6 +21,8 @@ export let loader: LoaderFunction = async ({request}) => {
 export default function Index() {
   const data = useLoaderData();
   console.log('hola',data)
+
+
   return (
     <React.Fragment>
       <Typography variant="h4" component="h1" sx={{ mb: 2 }}>

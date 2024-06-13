@@ -16,8 +16,8 @@ import { unstable_useEnhancedEffect as useEnhancedEffect } from "@mui/material";
 import theme from "./src/theme";
 import ClientStyleContext from "./src/ClientStyleContext";
 import Layout from "./src/Layout";
-
 import rootStyles from "~/styles/root.css";
+import saleStyles from "~/styles/sale.css";
 import notfoundStyles from "~/styles/notfound.css";
 import sidebarmenuStyles from "~/styles/sidebarmenu.css";
 import headerStyles from "~/styles/header.css";
@@ -38,6 +38,10 @@ export const links = () => [
   {
     rel: "stylesheet",
     href: notfoundStyles,
+  },
+  {
+    rel: "stylesheet",
+    href: saleStyles,
   },
   {
     rel: "stylesheet",
