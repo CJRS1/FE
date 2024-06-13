@@ -17,6 +17,7 @@ import getfirstword from "../utils/getfirstword";
 import getpagebyurl from "../utils/getpagebyurl";
 import getfirstletter from "../utils/getfirstletter";
 
+
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   width: 62,
   height: 34,
@@ -86,9 +87,9 @@ export default function Header({
   const [showMenu, setShowMenu] = React.useState(false);
   const menuRef = React.useRef<HTMLDivElement>(null);
 
-  // const location = useLocation()
-  // console.log('location',location.pathname)
-  // const page = getpagebyurl(location.pathname)
+  const location = useLocation()
+  console.log('location',location.pathname)
+  const page = getpagebyurl(location.pathname)
 
   const nombre = getfirstword(user.nombre);
   const letra_nombre = getfirstletter(user.nombre);
@@ -127,7 +128,7 @@ export default function Header({
     <header className="header_container">
       <nav>
         <ul>
-          <li className="title_page"> xd</li>
+          <li className="title_page">{page} </li>
           <li>
             <button className="button_sidebar" onClick={toggleSidebar}>
               <MenuIcon />
