@@ -2,7 +2,6 @@ import * as React from "react";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Form, json, Link } from "@remix-run/react";
-import type { ActionFunctionArgs, LinksFunction } from "@remix-run/node";
 import MenuIcon from "@mui/icons-material/Menu";
 import SettingsIcon from "@mui/icons-material/Settings";
 import headerStyles from "../styles/header.css";
@@ -16,7 +15,14 @@ import authenticator from "~/services/auth.server";
 import getfirstword from "../utils/getfirstword";
 import getpagebyurl from "../utils/getpagebyurl";
 import getfirstletter from "../utils/getfirstletter";
-
+import type {
+    ActionFunctionArgs,
+    LinksFunction,
+    LoaderFunction,
+    LoaderFunctionArgs,
+    Session,
+    SessionData,
+  } from "@remix-run/node";
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   width: 62,
@@ -121,9 +127,9 @@ export default function Header({
     };
   }, [showMenu]);
 
-
   const horaActual = new Date().getHours();
   const hi = greetings(horaActual);
+
   return (
     <header className="header_container">
       <nav>
@@ -147,7 +153,7 @@ export default function Header({
           </li>
         </ul>
         <div
-          // ref={menuRef}
+          ref={menuRef}
           className={`${showMenu ? "user_info" : "user_info user_info_hide"}`}
         >
           <div className="name_color_container">

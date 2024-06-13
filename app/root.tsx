@@ -124,7 +124,7 @@ export default function App() {
   let location = useLocation();
   let isLoginRoute = location.pathname === "/login";
   const user: User = useLoaderData();
-  console.log("ladat2a", user);
+  
   return (
     <Document>
       {isLoginRoute ? (

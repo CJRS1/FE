@@ -1,19 +1,138 @@
-.sale_card{
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 20px;
-    .css-wb57ya-MuiFormControl-root-MuiTextField-root{
-        margin: 0 20px;
-    }
-    
-    .css-1869usk-MuiFormControl-root{
-        width: 100%;
-        min-width: auto;
-        margin: 0 20px;
-    }
-    .client_info_container{
-        width: 200%;
-        display: flex;
-    }
+.vertical-line {
+  width: 2px;
+  height: 180px;
+  background: rgb(94, 53, 177);
 }
 
+.sale_container {
+  background: rgb(238, 242, 246);
+  min-height: calc(100vh - 100px);
+  padding: 25px;
+  margin: 0 20px 20px 20px;
+  border-radius: 20px;
+  .sale_card {
+    display: flex;
+    .sale_container_left {
+      width: 55%;
+      .sale_card_left {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 20px;
+        .css-wb57ya-MuiFormControl-root-MuiTextField-root {
+          margin: 0 20px;
+        }
+        .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
+          height: 0.8em !important;
+        }
+        .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.MuiSelect-select {
+          height: 0.8em !important;
+        }
+        .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.MuiSelect-select {
+          min-height: 0.8em !important;
+        }
+        .css-1869usk-MuiFormControl-root {
+          width: 100%;
+          min-width: auto;
+          margin: 0 20px;
+        }
+        .client_info_container {
+          width: 200%;
+          display: flex;
+        }
+      }
+    }
+    .sale_container_right {
+      width: 45%;
+      .client_info_container {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        margin-bottom: 20px;
+        .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.MuiSelect-select {
+          height: 0.8em !important;
+        }
+        .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.MuiSelect-select {
+          min-height: 0.8em !important;
+        }
+        .css-wb57ya-MuiFormControl-root-MuiTextField-root {
+          margin: 0 20px;
+        }
+        .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
+          height: 0.8em !important;
+        }
+        .css-1869usk-MuiFormControl-root {
+          width: 100%;
+          min-width: auto;
+          margin: 0 20px;
+        }
+      }
+    }
+  }
+  .search_and_create_container {
+    display: flex;
+    .search_and_create_card {
+      width: 40%;
+      margin-left: 20px;
+      margin-right: 20px;
+      .search_container{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+      }
+    }
+    .table_search_container {
+      margin-top: 20px;
+      width: 100%;
+      background: blue;
+      height: 20px;
+    }
+    .table_data_container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-left: 20px;
+      width: 60%;
+    }
+  }
+  .btn_save_cancel_container {
+      width: 100%;
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .btn_sale_save{
+        background: rgb(33, 150, 243);
+        padding: 12px 20px;
+        margin-right: 20px;
+        border-radius: 10px;
+        color: white;
+      }
+      .btn_sale_cancel{
+        background: red;
+        padding: 12px 20px;
+        margin-left: 20px;
+        border-radius: 10px;
+        color: white;
+      }
+  }
+}
+
+.btn_edit_sale_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn_edit_sale {
+  background: rgb(33, 150, 243);
+  margin: 2px;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 15px;
+  font-weight: 900;
+  width: 35px;
+}
+
+.css-1ygcj2i-MuiTableCell-root {
+  text-align: center;
+}
