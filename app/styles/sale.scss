@@ -48,6 +48,15 @@
         justify-content: space-around;
         align-items: center;
         margin-bottom: 20px;
+        .icon_container {
+          margin-right: 20px;
+          background: rgb(33, 150, 243);
+          padding: 5px 5px 2px 5px;
+          border-radius: 10px;
+          svg {
+            fill: #fff;
+          }
+        }
         .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.MuiSelect-select {
           height: 0.8em !important;
         }
@@ -74,10 +83,25 @@
       width: 40%;
       margin-left: 20px;
       margin-right: 20px;
-      .search_container{
+      .search_container {
         display: flex;
         justify-content: space-around;
         align-items: center;
+        .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
+            height: 0.8em !important;
+          }
+          .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.MuiSelect-select {
+            height: 0.8em !important;
+          }
+        .icon_container {
+          margin-left: 20px;
+          background: rgb(33, 150, 243);
+          padding: 5px 5px 2px 5px;
+          border-radius: 10px;
+          svg {
+            fill: #fff;
+          }
+        }
       }
     }
     .table_search_container {
@@ -95,25 +119,25 @@
     }
   }
   .btn_save_cancel_container {
-      width: 100%;
-      margin-top: 30px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      .btn_sale_save{
-        background: rgb(33, 150, 243);
-        padding: 12px 20px;
-        margin-right: 20px;
-        border-radius: 10px;
-        color: white;
-      }
-      .btn_sale_cancel{
-        background: red;
-        padding: 12px 20px;
-        margin-left: 20px;
-        border-radius: 10px;
-        color: white;
-      }
+    width: 100%;
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .btn_sale_save {
+      background: rgb(33, 150, 243);
+      padding: 12px 20px;
+      margin-right: 20px;
+      border-radius: 10px;
+      color: white;
+    }
+    .btn_sale_cancel {
+      background: red;
+      padding: 12px 20px;
+      margin-left: 20px;
+      border-radius: 10px;
+      color: white;
+    }
   }
 }
 

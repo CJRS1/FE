@@ -37,7 +37,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
-import SavedSearchIcon from '@mui/icons-material/SavedSearch';
+import SavedSearchIcon from "@mui/icons-material/SavedSearch";
 
 export const links = () => [{ rel: "stylesheet", href: userStyles }];
 
@@ -221,7 +221,9 @@ export default function Sale() {
           </div>
           <div className="client_info_container">
             <TextField label="Número de Documento" fullWidth focused required />
-            <SavedSearchIcon/>
+            <button className="icon_container">
+              <SavedSearchIcon sx={{ fontSize: 30 }} />
+            </button>
           </div>
           <div className="client_info_container">
             <TextField label="Razón Social" fullWidth focused required />
@@ -233,10 +235,12 @@ export default function Sale() {
         <div className="search_and_create_card">
           <div className="search_container">
             <TextField label="Buscar producto" fullWidth focused required />
-            <SavedSearchIcon/>
+            <button className="icon_container">
+              <SavedSearchIcon sx={{ fontSize: 30 }} />
+            </button>
           </div>
           <div className="table_search_container">
-            <TableContainer sx={{ minWidth: "100%" }} component={Paper}>
+            <TableContainer  component={Paper}>
               <Table aria-label="spanning table">
                 <TableHead>
                   <TableRow>
@@ -252,7 +256,9 @@ export default function Sale() {
                     <TableRow key={row.desc}>
                       <TableCell align="center">1</TableCell>
                       <TableCell align="center">Paperclips (Box)</TableCell>
-                      <TableCell align="center">{ccyFormat(row.price)}</TableCell>
+                      <TableCell align="center">
+                        {ccyFormat(row.price)}
+                      </TableCell>
                       <TableCell align="center">{row.qty}</TableCell>
                       <TableCell align="right">
                         <div className="btn_edit_sale_container">
